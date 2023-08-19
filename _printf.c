@@ -1,54 +1,64 @@
-#include <stdarg.h>
-#include <unistd.h>
+#include "main.h"
 
+void print_buffer(char buffer[], int *buff_ind);
+
+/*
+ * _printf - Printf function
+ * @format: format.
+ * Return: Printed chars.
+ */
 int _printf(const char *format, ...)
 {
-    va_list args;
-    va_start(args, format);
+	int i, printed = 0, printed_chars = 0;
+	int flags, width, precision, size, buff_ind = 0;
+	va_list list;
+	char buffer[BUFF_SIZE];
 
-    int printed_chars = 0;
+	if (format == NULL)
+		return (-1);
 
-    for (int i = 0; format[i] != '\0'; i++)
-    {
-        if (format[i] != '%')
-        {
-            write(1, &format[i], 1);
-            printed_chars++;
-        }
-        else
-        {
-            i++;  // Move past the '%'
+	va_start(list, format);
 
-            if (format[i] == 'c')
-            {
-                char c = va_arg(args, int);
-                write(1, &c, 1);
-                printed_chars++;
-            }
-            else if (format[i] == 's')
-            {
-                char *s = va_arg(args, char*);
-                for (int j = 0; s[j] != '\0'; j++)
-                {
-                    write(1, &s[j], 1);
-                    printed_chars++;
-                }
-            }
-            else if (format[i] == '%')
-            {
-                write(1, &format[i], 1);
-                printed_chars++;
-            }
-        }
-    }
+	for (i = 0; format && format[i] != '\0'; i++)
+	{
+		if (format[i] != '%')
+		{
+			buffer[buff_ind++] = format[i];
+			if (buff_ind == BUFF_SIZE)
+				print_buffer(buffer, &buff_ind);
+			/* write(1, &format[i], 1);*/
+			printed_chars++;
+		}
+		else
+		{
+			print_buffer(buffer, &buff_ind);
+			flags = get_flags(format, &i);
+			width = get_width(format, &i, list);
+			precision = get_precision(format, &i, list);
+			size = get_size(format, &i);
+			++i;
+			printed = handle_print(format, &i, list, buffer,
+				flags, width, precision, size);
+			if (printed == -1)
+				return (-1);
+			printed_chars += printed;
+		}
+	}
 
-    va_end(args);
+	print_buffer(buffer, &buff_ind);
 
-    return printed_chars;
+	va_end(list);
+
+	return (printed_chars);
 }
 
-int main()
+/*
+ * print_buffer:if exist it prints contents of buffer
+ */
+void print_buffer(char buffer[], int *buff_ind)
 {
-    _printf("Hello, %c! This is a %s\n", 'W', "test");
-    return 0;
+	if (*buff_ind > 0)
+		write(1, &buffer[0], *buff_ind);
+
+	*buff_ind = 0;
 }
