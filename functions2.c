@@ -176,7 +176,7 @@ int print_rot13string(va_list types, char buffer[],
 				count++;
 				break;
 			}
-		}
+	}
 		if (!in[j])
 		{
 			x = str[i];

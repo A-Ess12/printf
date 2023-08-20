@@ -63,8 +63,7 @@ int print_octal(va_list types, char buffer[],
 	return (write_unsgnd(0, i, buffer, flags, width, precision, size));
 }
 
-/*Print unsigned in hex/
-/*
+/*Print unsigned in hex
  * print_hexadecimal:Prints an unsigned number in hexadecimal notation
  */
 int print_hexadecimal(va_list types, char buffer[],
