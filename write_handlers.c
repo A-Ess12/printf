@@ -1,7 +1,7 @@
 #include "main.h"
 
-/************************* WRITE HANDLE *************************/
-/**
+/*Write to handle*/
+/*
  * handle_write_char - Prints a string
  * @c: char types.
  * @buffer: Buffer array to handle print
@@ -44,8 +44,8 @@ int handle_write_char(char c, char buffer[],
 	return (write(1, &buffer[0], 1));
 }
 
-/************************* WRITE NUMBER *************************/
-/**
+/*writ num*/
+/*
  * write_number - Prints a string
  * @is_negative: Lista of arguments
  * @ind: char types.
@@ -78,7 +78,7 @@ int write_number(int is_negative, int ind, char buffer[],
 		length, padd, extra_ch));
 }
 
-/**
+/*
  * write_num - Write a number using a bufffer
  * @ind: Index at which the number starts on the buffer
  * @buffer: Buffer
@@ -137,7 +137,7 @@ int write_num(int ind, char buffer[],
 	return (write(1, &buffer[ind], length));
 }
 
-/**
+/*
  * write_unsgnd - Writes an unsigned number
  * @is_negative: Number indicating if the num is negative
  * @ind: Index at which the number starts in the buffer
@@ -195,7 +195,7 @@ int write_unsgnd(int is_negative, int ind,
 	return (write(1, &buffer[ind], length));
 }
 
-/**
+/*
  * write_pointer - Write a memory address
  * @buffer: Arrays of chars
  * @ind: Index at which the number starts in the buffer
